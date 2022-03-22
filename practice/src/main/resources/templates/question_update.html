@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>수정하기</title>
+</head>
+<body>
+
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문수정</h5>
+    <form action="/question/update" method="post" class="post-form my-3">
+    	<input type="hidden" th:value="${question.id}" name="id">  	 
+    	<div class="form-group">
+            <label for="subject">제목</label>
+            <input type="text" class="form-control" name="subject" id="subject" th:value="${question.subject}">
+        </div>
+        <div class="form-group">
+            <label for="content" >내용</label>
+            <textarea class="form-control" name="content" id="content" rows="10" th:text="${question.content}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
+
+
+</body>
+</html>

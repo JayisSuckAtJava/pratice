@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<style>
+
+	h1{
+	text-align : center;
+	font-family: 굴림;
+	}
+
+</style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>게시판</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <a class="navbar-brand" th:href="@{/}">게시판</a>
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item ">
+                <a th:if="${session.user != null}" class="nav-link" th:href="@{/signout}" th:text="${session.user.name} + ' (로그아웃)'"></a>
+                <a th:unless="${session.user != null}" class="nav-link" th:href="@{/signin}" th:text="로그인"></a>
+                <a th:if="${session.user != null}" class="nav-link" th:href="@{/mypage}" th:text="마이페이지"></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container my-3">
+    <h1 class="border-bottom py-2" th:text="${session.user.name}+ '님 작성 게시글. | 총 갯수 : '+${qSize}"></h1>
+    
+    
+   <th:block th:each="question : ${qList}">
+    <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
+    <div class="row my-3">
+        <div class="col-11">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-text" th:text="${question.content}"></div>
+                    <div class="d-flex justify-content-end">
+                        <div class="badge badge-light p-2 text-left">
+                            <div class="mb-2" th:text="${question.user.name}"></div>
+                            <div th:text="${question.createDate}"></div>
+                        </div>
+                    </div>
+                    <div th:if="${session.user.name} == ${question.user.name}" class="my-3">
+                        <a class="btn btn-sm btn-outline-secondary">수정</a>
+                        <a class="delete btn btn-sm btn-outline-secondary">삭제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</th:block>
+    
+    
+    <h1 class="border-bottom my-3 py-2" th:text="${session.user.name}+ '님 작성 답변. | 총 갯수 : '+${aSize}"></h1>
+	<th:block th:each="answer : ${aList}">
+    <a name="answer_{{ answer.id }}"></a>
+    <span th:text="${answer.question.subject}+' 에서 작성된 답변.'"></span>
+    <div class="row my-3">
+        <div class="col-11">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-text" th:text="${answer.content}"></div>
+                    <div class="d-flex justify-content-end">
+                        <div class="badge badge-light p-2 text-left">
+                            <div class="mb-2" th:text="${answer.user.name}"></div>
+                            <div th:text="${answer.createDate}"></div>
+                        </div>
+                    </div>
+                    <div th:if="${session.user.name} == ${answer.user.name}" class="my-3">
+                        <a class="btn btn-sm btn-outline-secondary">수정</a>
+                        <a class="delete btn btn-sm btn-outline-secondary">삭제</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</th:block>
+</div>
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+
